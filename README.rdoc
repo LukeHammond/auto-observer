@@ -1,0 +1,42 @@
+== Auto Observer
+
+The purpose of this project it to examine how callbacks and observers can be created in a convenient re-usable form.
+
+In a rails app that uses this gem you might ....
+
+Have a class like this 
+
+class Plate
+
+  CALLBACKS = [:clean]
+
+  def clean
+    puts "I am being scrubbed good and squeaky"
+  end
+
+  include AutoObserver
+end
+
+
+and then create an observer ....
+
+class PlateObserver < ActiveModel::Observer
+  def before_clean(plate)
+    puts "add some washing up liquid"
+  end
+end
+
+and hook it up so ....
+
+Plate.observers = PlateObserver
+Plate.instantiate_observers
+
+and then from this ....
+
+plate = Plate.new
+plate.clean
+
+you will see this ....
+
+add some washing up liquid
+I am being scrubbed good and squeaky
