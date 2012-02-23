@@ -1,15 +1,13 @@
 require "auto-observer/version"
+require 'auto-observer/observing'
+require 'auto-observer/callbacks'
+require 'auto-observer/callbacks_helper'
 
 module AutoObserver
   extend ActiveSupport::Concern
   included do
-
-    class_eval(<<-EOS, __FILE__, __LINE__ + 1)
-      extend ActiveModel::Callbacks
-      include AutoObserver::Callbacks if defined?(AutoObserver::Callbacks)
-      include AutoObserver::Observing if defined?(AutoObserver::Observing)
-    EOS
+    extend ActiveModel::Callbacks
+    include AutoObserver::Callbacks if defined?(AutoObserver::Callbacks)
+    include AutoObserver::Observing if defined?(AutoObserver::Observing)
   end
 end
-require 'auto-observer/observing'
-require 'auto-observer/callbacks'

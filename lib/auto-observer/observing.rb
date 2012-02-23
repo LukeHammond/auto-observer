@@ -4,15 +4,15 @@ module AutoObserver
     include ActiveModel::Observing
 
     included do
-      self::CALLBACKS.each do |method|
-        # def create_with_notifications(*args, &block)
-        #   notify_observers(:before_create)
-        #   if result = create_without_notifications(*args, &block)
-        #     notify_observers(:after_create)
+      @callbacks.each do |method|
+        # example
+        # def push_with_notifications(*args, &block)
+        #   notify_observers(:before_push)
+        #   if result = push_without_notifications(*args, &block)
+        #     notify_observers(:after_push)
         #   end
         #   result
         # end
-        # alias_method_chain(create, :notifications)
         class_eval(<<-EOS, __FILE__, __LINE__ + 1)
           def #{method}_with_notifications(*args, &block)
             notify_observers(:before_#{method})
