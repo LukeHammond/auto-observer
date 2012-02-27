@@ -3,7 +3,7 @@
 The purpose of this project it to examine how callbacks and observers can be created in a convenient re-usable form.
 
 * Add Callbacks with Observing for certain operations
-require 'auto-observer'
+    require 'auto-observer'
 
     class Client
       include AutoObserver
@@ -37,15 +37,15 @@ require 'auto-observer'
       include AutoObserver::AliasMethodBind
     end
 
-  This generates +before_tickle+, and +after_tickle+ class methods
-  that wrap your tickle instance method by wrapping
-  define_model_callback with auto_observer_callbacks class helper.
+This generates +before_tickle+, and +after_tickle+ class methods
+that wrap your tickle instance method by wrapping
+define_model_callback with auto_observer_callbacks class helper.
 
-  This also initializes Client with observing functionality, hooking up
-  notifications to observer classes that are registered with this Class.
+This also initializes Client with observing functionality, hooking up
+notifications to observer classes that are registered with this Class.
 
-  The include AutoObserver::AliasMethodBind alias_method_chains each of
-  the callback methods.
+The include AutoObserver::AliasMethodBind alias_method_chains each of
+the callback methods.
 
 * Observer registration
 
@@ -67,7 +67,7 @@ require 'auto-observer'
       end
     end
 
-  Register with Client and initialize
+* Register with Client and initialize
     
     Client.observers = :client_observer, :another_client_observer
     Client.instantiate_observers
@@ -78,7 +78,11 @@ require 'auto-observer'
     client.before_visit == []   #=> true
     client.after_visit == []    #=> true
 
-	client.tickle #=> "giggle"
-	
-    client.before_visit == [ :before_tickle, :before_another_tickle, :pre_tickle_processing ]   #=> true
-    client.after_visit == [ :post_tickle_processing, :after_another_tickle ]   #=> true
+    client.tickle    #=> "giggle"
+
+    client.before_visit == [ 
+      :before_tickle, :before_another_tickle, :pre_tickle_processing
+    ]    #=> true
+    client.after_visit == [ 
+      :post_tickle_processing, :after_another_tickle
+    ]    #=> true
