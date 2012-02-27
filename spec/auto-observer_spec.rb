@@ -3,27 +3,24 @@ require 'spec_helper'
 describe AutoObserver do
   context "included in a class with auto observing enabled for a method called tickle" do
     before(:all) do
-      class MyBase; end
+      class Client
+        include AutoObserver
 
-      # MyBase.send(:extend, ActiveModel::Callbacks)
-      # MyBase.send(:include, AutoObserver::CallbacksHelper::Base)
-
-      class Client < MyBase
         attr_accessor :before_visit, :after_visit
-        
-        auto_observer_callbacks :tickle, :only => [:after, :before]
 
-        before_tickle :pre_tickle_processing
-        after_tickle :post_tickle_processing
+        auto_observer_callbacks :tickle, :only => [:after, :before]
 
         def tickle
           "giggle"
         end
-        
+
+        before_tickle :pre_tickle_processing
+        after_tickle :post_tickle_processing
+
         def before_visit
           @before_visit ||= [ ]
         end
-        
+
         def after_visit
           @after_visit ||= [ ]
         end
@@ -35,7 +32,8 @@ describe AutoObserver do
         def post_tickle_processing
           after_visit << :post_tickle_processing
         end
-        
+
+        include AutoObserver::AliasMethodBind
       end
       
       class ClientObserver < ActiveModel::Observer
@@ -55,8 +53,6 @@ describe AutoObserver do
         end
       end
       
-      Client.send(:include, AutoObserver)
-      # MyBase.send(:include, AutoObserver)
       Client.observers = :client_observer, :another_client_observer
       Client.instantiate_observers
       

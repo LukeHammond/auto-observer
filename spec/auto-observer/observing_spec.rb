@@ -4,13 +4,14 @@ describe "AutoObserver::Observing" do
   context "included in a class with observing enabled for a method called tickle" do
     before do
       class ClientClass
-        @callbacks = [:tickle]
+        include AutoObserver
+
+        auto_observer_callbacks :tickle, :only => [:after, :before]
       
-        def tickle
-        end
+        def tickle; end
+
+        include AutoObserver::AliasMethodBind
       end
-      ClientClass.send(:extend, ActiveModel::Callbacks)
-      ClientClass.send(:include, AutoObserver::Observing)
     end
 
     subject { ClientClass.new }

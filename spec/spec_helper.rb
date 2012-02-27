@@ -1,9 +1,4 @@
-require 'active_support'
-require 'active_model'
 require 'auto-observer'
-require 'auto-observer/observing'
-require 'auto-observer/callbacks'
-require 'auto-observer/callbacks_helper'
 
 # Should matchers
 # require 'shoulda/matchers'
