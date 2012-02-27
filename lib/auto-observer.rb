@@ -16,9 +16,10 @@ module AutoObserver
   module ClassMethods
 
     def auto_observer_callbacks(*args)
-      options = args.extract_options!
-      @callbacks = args
-      define_model_callbacks *@callbacks, options
+      args_clone = args.clone
+      options = args_clone.extract_options!
+      @callbacks = args_clone
+      define_model_callbacks(*args)
 
       include AutoObserver::Callbacks
       include AutoObserver::Observing
