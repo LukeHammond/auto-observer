@@ -9,13 +9,12 @@ module AutoObserver
   extend ActiveSupport::Concern
 
   included do
-    extend ActiveModel::Callbacks
-    extend ClassMethods
   end
 
   module ClassMethods
 
     def auto_observer_callbacks(*args)
+      extend ActiveModel::Callbacks
       args_clone = args.clone
       options = args_clone.extract_options!
       @callbacks = args_clone
